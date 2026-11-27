@@ -1,0 +1,38 @@
+; I2S master receiver for the INMP441 MEMS microphone (L/R pin to GND).
+; Side-set pins: base = SCK, base+1 = WS.  IN pin = SD.
+; 2 PIO cycles per bit, 64 bits per frame -> PIO clock = sample_rate * 128.
+; Only the left slot (WS low) is pushed: one 32-bit word per sample.
+; WS changes on the falling SCK edge one bit before the MSB (standard I2S),
+; so the word is [1 delay bit][24 data bits MSB first][7 zero bits].
+
+.program mic_i2s
+.side_set 2
+
+                        ;        /--- WS
+                        ;        |/-- SCK
+.wrap_target
+    set x, 30           side 0b00   ; SCK low, WS low: left slot starts
+lslot:
+    in pins, 1          side 0b01   ; SCK high: sample SD
+    jmp x-- lslot       side 0b00
+    in pins, 1          side 0b01   ; 32nd bit -> autopush
+    set x, 30           side 0b10   ; SCK low, WS high: right slot (ignored)
+rslot:
+    nop                 side 0b11
+    jmp x-- rslot      side 0b10
+    nop                 side 0b11
+.wrap
+
+% c-sdk {
+static inline void mic_i2s_program_init(PIO pio, uint sm, uint offset, uint sd_pin, uint sck_pin) {
+    pio_sm_config c = mic_i2s_program_get_default_config(offset);
+    sm_config_set_in_pins(&c, sd_pin);
+    sm_config_set_sideset_pins(&c, sck_pin);
+    sm_config_set_in_shift(&c, false, true, 32);     /* MSB first, autopush */
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_RX);
+    pio_sm_init(pio, sm, offset, &c);
+
+    pio_sm_set_consecutive_pindirs(pio, sm, sck_pin, 2, true);
+    pio_sm_set_consecutive_pindirs(pio, sm, sd_pin, 1, false);
+}
+%}

@@ -1,0 +1,88 @@
+# Builds the firmware on every push and pull request, and for releases
+# (called from release.yml). The .uf2 / .bin files are kept as an artifact.
+name: Build
+
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['**']
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: Git ref to build
+        type: string
+        required: true
+
+env:
+  PICO_SDK_VERSION: "2.3.0"          # same as the VS Code Pico extension uses here
+  ARM_TOOLCHAIN_VERSION: "15.2.rel1" # https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ninja-build cmake pkg-config libusb-1.0-0-dev
+
+      - name: Cache ARM toolchain
+        id: cache-toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/arm-toolchain
+          key: arm-toolchain-${{ env.ARM_TOOLCHAIN_VERSION }}
+
+      - name: Download ARM toolchain
+        if: steps.cache-toolchain.outputs.cache-hit != 'true'
+        run: |
+          v="$ARM_TOOLCHAIN_VERSION"
+          url="https://developer.arm.com/-/media/Files/downloads/gnu/${v}/binrel/arm-gnu-toolchain-${v}-x86_64-arm-none-eabi.tar.xz"
+          mkdir -p ~/arm-toolchain
+          curl -fsSL "$url" | tar -xJ -C ~/arm-toolchain --strip-components=1
+
+      - name: Cache Pico SDK
+        id: cache-sdk
+        uses: actions/cache@v4
+        with:
+          path: ~/pico-sdk
+          key: pico-sdk-${{ env.PICO_SDK_VERSION }}
+
+      - name: Download Pico SDK
+        if: steps.cache-sdk.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 --branch "$PICO_SDK_VERSION" --recurse-submodules --shallow-submodules \
+            https://github.com/raspberrypi/pico-sdk.git ~/pico-sdk
+
+      - name: Fetch libraries (FreeRTOS, minimp3, Helix AAC)
+        run: ./setup.sh
+
+      - name: Configure
+        run: |
+          echo "$HOME/arm-toolchain/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/arm-toolchain/bin:$PATH"
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DPICO_SDK_PATH="$HOME/pico-sdk" \
+            -DPICO_TOOLCHAIN_PATH="$HOME/arm-toolchain"
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          if-no-files-found: error
+          path: |
+            build/pico_radio.uf2
+            build/pico_radio.bin
+            build/pico_radio.elf
+            build/pt.uf2

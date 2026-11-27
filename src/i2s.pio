@@ -1,0 +1,50 @@
+; 16-bit stereo I2S master transmitter, three independent pins:
+;   side-set = BCLK, OUT pin = DATA, SET pin = LRCK  (any GPIOs, any order)
+; 4 PIO cycles per bit (2 with BCLK low, 2 high) -> PIO clock = sample_rate * 128.
+; DATA and LRCK only change while BCLK is low; the DAC samples on the rising edge.
+; Each 32-bit FIFO word is one frame: [31:16] = right (LRCK 1), [15:0] = left (LRCK 0).
+; As I2S wants, LRCK switches during the last bit (LSB) of the previous channel.
+
+.program audio_i2s
+.side_set 1
+
+.wrap_target
+public entry_point:
+ch_right:                                ; LRCK is already 1
+    out pins, 1         side 0 [1]      ; bit 15 (MSB)
+    set x, 13           side 1 [1]
+rloop:
+    out pins, 1         side 0 [1]      ; bits 14..1
+    jmp x-- rloop  side 1 [1]
+    out pins, 1         side 0          ; bit 0 (LSB)
+    set pins, 0         side 0          ; LRCK -> left
+    nop                 side 1 [1]
+
+ch_left:
+    out pins, 1         side 0 [1]      ; bit 15 (MSB)
+    set x, 13           side 1 [1]
+lloop:
+    out pins, 1         side 0 [1]      ; bits 14..1
+    jmp x-- lloop   side 1 [1]
+    out pins, 1         side 0          ; bit 0 (LSB)
+    set pins, 1         side 0          ; LRCK -> right
+    nop                 side 1 [1]
+.wrap
+
+% c-sdk {
+static inline void audio_i2s_program_init(PIO pio, uint sm, uint offset,
+                                          uint data_pin, uint bclk_pin, uint lrck_pin) {
+    pio_sm_config c = audio_i2s_program_get_default_config(offset);
+    sm_config_set_out_pins(&c, data_pin, 1);
+    sm_config_set_sideset_pins(&c, bclk_pin);
+    sm_config_set_set_pins(&c, lrck_pin, 1);
+    sm_config_set_out_shift(&c, false, true, 32);
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
+    pio_sm_init(pio, sm, offset, &c);
+
+    uint32_t mask = (1u << data_pin) | (1u << bclk_pin) | (1u << lrck_pin);
+    pio_sm_set_pindirs_with_mask(pio, sm, mask, mask);
+    pio_sm_set_pins_with_mask(pio, sm, 1u << lrck_pin, mask);   /* starts with the right channel */
+    pio_sm_exec(pio, sm, pio_encode_jmp(offset + audio_i2s_offset_entry_point));
+}
+%}

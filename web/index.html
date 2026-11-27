@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pico Radio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzIwMjYzYSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzBkMGYxNCIvPjwvbGluZWFyR3JhZGllbnQ+PHJhZGlhbEdyYWRpZW50IGlkPSJnbG93IiBjeD0iLjUiIGN5PSIuODUiIHI9Ii42Ij48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMzY2U2NWEiIHN0b3Atb3BhY2l0eT0iLjE4Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjM2NlNjVhIiBzdG9wLW9wYWNpdHk9IjAiLz48L3JhZGlhbEdyYWRpZW50PjwvZGVmcz48Zz48cmVjdCB4PSI1IiB5PSI1IiB3aWR0aD0iMTE4IiBoZWlnaHQ9IjExOCIgcng9IjI4IiBmaWxsPSJ1cmwoI2JnKSIgc3Ryb2tlPSIjMmYzNTQ2IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSI1IiB5PSI1IiB3aWR0aD0iMTE4IiBoZWlnaHQ9IjExOCIgcng9IjI4IiBmaWxsPSJ1cmwoI2dsb3cpIi8+PHJlY3QgeD0iMTEiIHk9IjExIiB3aWR0aD0iMTA2IiBoZWlnaHQ9IjEwNiIgcng9IjIzIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMDYiIHN0cm9rZS13aWR0aD0iMS41Ii8+PHJlY3QgeD0iMTciIHk9IjkyLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iMTciIHk9IjgzLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iMzEiIHk9IjkyLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iMzEiIHk9IjgzLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iMzEiIHk9Ijc0LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iMzEiIHk9IjY1LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNDUiIHk9IjkyLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNDUiIHk9IjgzLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNDUiIHk9Ijc0LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNDUiIHk9IjY1LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNDUiIHk9IjU2LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmZiMDI4Ii8+PHJlY3QgeD0iNDUiIHk9IjQ3LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmZiMDI4Ii8+PHJlY3QgeD0iNTkiIHk9IjkyLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNTkiIHk9IjgzLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNTkiIHk9Ijc0LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNTkiIHk9IjY1LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNTkiIHk9IjU2LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmZiMDI4Ii8+PHJlY3QgeD0iNTkiIHk9IjQ3LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmZiMDI4Ii8+PHJlY3QgeD0iNTkiIHk9IjM4LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmY0NjM4Ii8+PHJlY3QgeD0iNTkiIHk9IjI5LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmY0NjM4Ii8+PHJlY3QgeD0iNzMiIHk9IjkyLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNzMiIHk9IjgzLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNzMiIHk9Ijc0LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNzMiIHk9IjY1LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iNzMiIHk9IjU2LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmZiMDI4Ii8+PHJlY3QgeD0iNzMiIHk9IjQ3LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjZmZiMDI4Ii8+PHJlY3QgeD0iODciIHk9IjkyLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iODciIHk9IjgzLjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iODciIHk9Ijc0LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iODciIHk9IjY1LjUiIHdpZHRoPSIxMCIgaGVpZ2h0PSI2IiByeD0iMS42IiBmaWxsPSIjM2NlNjVhIi8+PHJlY3QgeD0iMTAxIiB5PSI5Mi41IiB3aWR0aD0iMTAiIGhlaWdodD0iNiIgcng9IjEuNiIgZmlsbD0iIzNjZTY1YSIvPjxyZWN0IHg9IjEwMSIgeT0iODMuNSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjYiIHJ4PSIxLjYiIGZpbGw9IiMzY2U2NWEiLz48L2c+PC9zdmc+">
+<style>
+:root{--bg:#0d0f14;--panel:#171a22;--line:#2a2f3c;--text:#e8ebf2;--dim:#8a93a6;--amber:#ffb028;--green:#3ce65a;--red:#ff4638;--blue:#3ca8ff;--bt:#0a5ac8;--ai:#6e28a0;--radio:#0a1e50}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:900px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+h1{margin:0;line-height:0}h1 svg{display:block;max-width:62vw;height:auto}
+h1 span{color:var(--amber)}
+#net{color:var(--dim);font-size:13px;font-variant-numeric:tabular-nums}
+.screen{background:#000;border:1px solid var(--line);border-radius:10px;padding:10px;box-shadow:inset 0 0 0 4px #050608}
+.screen canvas{display:block;width:100%;aspect-ratio:284/76;image-rendering:pixelated;image-rendering:crisp-edges}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:12px}
+.now{display:flex;flex-direction:column;gap:4px}
+#name{font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+#title{font-size:19px;font-weight:600;color:var(--amber);min-height:1.4em;word-break:break-word}
+.params{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--dim);font-size:13px;font-variant-numeric:tabular-nums}
+.badge{background:var(--amber);color:#000;font-weight:700;border-radius:3px;padding:1px 6px;font-size:12px}
+#state{font-weight:700;color:var(--green)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button{font:inherit;color:var(--text);background:#202533;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:44px}
+button:hover{border-color:#4a5368}
+button:active{transform:translateY(1px)}
+.tabs button.on[data-src=radio]{background:var(--radio);border-color:var(--blue)}
+.tabs button.on[data-src=bt]{background:var(--bt);border-color:#6fb4ff}
+.tabs button.on[data-src=ai]{background:var(--ai);border-color:#b07ae0}
+.vol{display:flex;align-items:center;gap:12px}
+.vol label{color:var(--dim);font-size:13px;width:32px}
+input[type=range]{flex:1;accent-color:var(--blue);height:32px}
+#volv{width:3ch;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+#mute.on{background:#4a1612;border-color:var(--red);color:#ffd2cc}
+.stations{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.stations button{text-align:left;display:flex;gap:10px;align-items:center}
+.stations button .n{color:var(--dim);font-variant-numeric:tabular-nums;width:1.6em}
+.stations button.on{border-color:var(--green);background:#13261a}
+.stations button.on .n{color:var(--green)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row button{flex:1}
+.hint{color:var(--dim);font-size:13px;margin:8px 0 0}
+#mic.on{background:#4a1612;border-color:var(--red)}
+.meter{height:8px;background:#0a0c10;border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:10px}
+.meter i{display:block;height:100%;width:0;background:var(--green);transition:width .15s}
+.hidden{display:none}
+footer{color:var(--dim);font-size:12px;text-align:center;margin:18px 0 4px}
+.edit-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.edit-head h2{font-size:15px;margin:0}
+.edit-head small{color:var(--dim)}
+.elist{display:flex;flex-direction:column;gap:6px}
+.erow{display:grid;grid-template-columns:2em 1fr auto;gap:8px;align-items:center;background:#11141b;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.erow .n{color:var(--dim);text-align:right;font-variant-numeric:tabular-nums}
+.erow .t{min-width:0}
+.erow .t b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.erow .t span{display:block;color:var(--dim);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.erow .b{display:flex;gap:4px}
+.erow .b button{min-height:36px;min-width:36px;padding:4px 8px}
+.erow.editing{border-color:var(--amber)}
+.form{display:grid;grid-template-columns:1fr 2fr auto;gap:8px;margin-top:12px}
+.form input{font:inherit;color:var(--text);background:#0a0c10;border:1px solid var(--line);border-radius:8px;padding:10px;min-height:44px;min-width:0}
+.form input:focus{outline:none;border-color:var(--blue)}
+@media (max-width:640px){.form{grid-template-columns:1fr}}
+@media (max-width:480px){.erow{grid-template-columns:1.6em 1fr}.erow .b{grid-column:2}.erow .t b,.erow .t span{white-space:normal;word-break:break-all}}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tools a,.tools label{font:inherit;color:var(--text);background:#202533;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
+.tools .danger{margin-left:auto;color:#ffb4ab}
+.row .danger{color:#ffb4ab}
+.preview{margin-top:12px;border:1px dashed var(--amber);border-radius:8px;padding:10px}
+.preview ol{margin:6px 0 10px 20px;padding:0;color:var(--dim);font-size:13px;max-height:160px;overflow:auto}
+.msg{font-size:13px;margin-top:8px;min-height:1.2em}
+.msg.ok{color:var(--green)}.msg.bad{color:var(--red)}
+#err{color:var(--red)}
+.fw-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.fw-head h2{font-size:15px;margin:0}
+.fw-head small{color:var(--dim);font-variant-numeric:tabular-nums}
+#fwbar{background:var(--blue)}
+.cfg{display:grid;grid-template-columns:max-content 1fr;gap:8px 12px;align-items:center;margin-top:12px}
+.cfg label{color:var(--dim);font-size:13px}
+.cfg input,.cfg select,.cfg textarea{font:inherit;color:var(--text);background:#0a0c10;border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-height:40px;min-width:0;width:100%}
+.cfg textarea{min-height:90px;resize:vertical}
+.cfg input:focus,.cfg textarea:focus{outline:none;border-color:var(--blue)}
+.cfg h3{grid-column:1/-1;margin:8px 0 0;font-size:13px;color:var(--amber);text-transform:uppercase;letter-spacing:.08em}
+.cfg .chk{display:flex;align-items:center;gap:8px}.cfg .chk input{width:auto;min-height:0}
+.cfg small{grid-column:2;color:var(--dim);font-size:12px;margin-top:-4px}
+@media (max-width:560px){.cfg{grid-template-columns:1fr}.cfg small{grid-column:1}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 489 128" width="168" height="44" role="img" aria-label="Pico Radio"><defs><linearGradient id="lg-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#20263a"/><stop offset="1" stop-color="#0d0f14"/></linearGradient><radialGradient id="lg-glow" cx=".5" cy=".85" r=".6"><stop offset="0" stop-color="#3ce65a" stop-opacity=".18"/><stop offset="1" stop-color="#3ce65a" stop-opacity="0"/></radialGradient></defs><g><rect x="5" y="5" width="118" height="118" rx="28" fill="url(#lg-bg)" stroke="#2f3546" stroke-width="2"/><rect x="5" y="5" width="118" height="118" rx="28" fill="url(#lg-glow)"/><rect x="11" y="11" width="106" height="106" rx="23" fill="none" stroke="#ffffff" stroke-opacity=".06" stroke-width="1.5"/><rect x="17" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="17" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="31" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="31" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="31" y="74.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="31" y="65.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="45" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="45" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="45" y="74.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="45" y="65.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="45" y="56.5" width="10" height="6" rx="1.6" fill="#ffb028"/><rect x="45" y="47.5" width="10" height="6" rx="1.6" fill="#ffb028"/><rect x="59" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="59" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="59" y="74.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="59" y="65.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="59" y="56.5" width="10" height="6" rx="1.6" fill="#ffb028"/><rect x="59" y="47.5" width="10" height="6" rx="1.6" fill="#ffb028"/><rect x="59" y="38.5" width="10" height="6" rx="1.6" fill="#ff4638"/><rect x="59" y="29.5" width="10" height="6" rx="1.6" fill="#ff4638"/><rect x="73" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="73" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="73" y="74.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="73" y="65.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="73" y="56.5" width="10" height="6" rx="1.6" fill="#ffb028"/><rect x="73" y="47.5" width="10" height="6" rx="1.6" fill="#ffb028"/><rect x="87" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="87" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="87" y="74.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="87" y="65.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="101" y="92.5" width="10" height="6" rx="1.6" fill="#3ce65a"/><rect x="101" y="83.5" width="10" height="6" rx="1.6" fill="#3ce65a"/></g><g transform="translate(146 84.37)"><path d="M3.2 0V-40.7H19.9Q24.5 -40.7 27.8 -39Q31.1 -37.2 32.9 -34Q34.7 -30.8 34.7 -26.7Q34.7 -22.5 32.9 -19.3Q31 -16.2 27.7 -14.5Q24.3 -12.7 19.6 -12.7H9.2V-20.3H17.8Q20.1 -20.3 21.6 -21.1Q23.2 -21.9 23.9 -23.4Q24.7 -24.8 24.7 -26.7Q24.7 -28.6 23.9 -30Q23.2 -31.4 21.6 -32.2Q20.1 -32.9 17.8 -32.9H12.8V0Z M51.3 -40.7V0H41.7V-40.7Z M78 0.5Q72.5 0.5 68.2 -1.9Q63.8 -4.3 61.3 -9Q58.8 -13.7 58.8 -20.3Q58.8 -27.1 61.3 -31.8Q63.9 -36.4 68.2 -38.9Q72.6 -41.3 78 -41.3Q81.6 -41.3 84.7 -40.3Q87.8 -39.3 90.2 -37.4Q92.6 -35.5 94.1 -32.7Q95.6 -29.9 96 -26.4H86.2Q86 -27.9 85.4 -29.1Q84.7 -30.2 83.7 -31.1Q82.6 -31.9 81.3 -32.4Q79.9 -32.8 78.3 -32.8Q75.3 -32.8 73.1 -31.3Q70.9 -29.9 69.8 -27.1Q68.6 -24.3 68.6 -20.3Q68.6 -16.3 69.8 -13.5Q71 -10.7 73.1 -9.3Q75.3 -7.9 78.2 -7.9Q79.9 -7.9 81.2 -8.4Q82.6 -8.8 83.6 -9.7Q84.7 -10.5 85.4 -11.7Q86 -12.9 86.3 -14.4H96Q95.8 -11.7 94.5 -9Q93.2 -6.4 90.9 -4.2Q88.6 -2 85.4 -0.7Q82.2 0.5 78 0.5Z M121.8 0.5Q116.3 0.5 111.9 -1.9Q107.5 -4.3 105 -9Q102.4 -13.7 102.4 -20.3Q102.4 -27.1 105 -31.8Q107.5 -36.4 111.9 -38.9Q116.3 -41.3 121.8 -41.3Q127.3 -41.3 131.6 -38.9Q136 -36.4 138.6 -31.8Q141.2 -27.1 141.2 -20.3Q141.2 -13.6 138.6 -9Q136 -4.3 131.6 -1.9Q127.3 0.5 121.8 0.5ZM121.8 -7.9Q124.8 -7.9 126.9 -9.4Q129 -10.8 130.2 -13.6Q131.3 -16.3 131.3 -20.3Q131.3 -24.4 130.2 -27.2Q129 -30 126.9 -31.4Q124.8 -32.8 121.8 -32.8Q118.8 -32.8 116.7 -31.4Q114.6 -30 113.4 -27.2Q112.3 -24.4 112.3 -20.3Q112.3 -16.3 113.4 -13.6Q114.6 -10.8 116.7 -9.4Q118.8 -7.9 121.8 -7.9Z" fill="#ffb028"/><path d="M148.6 0V-40.7H165.3Q169.9 -40.7 173.2 -39.1Q176.5 -37.4 178.3 -34.4Q180.1 -31.4 180.1 -27.2Q180.1 -23 178.3 -20.1Q176.5 -17.1 173.1 -15.6Q169.7 -14 165 -14H154.4V-21.7H163.2Q165.5 -21.7 167 -22.3Q168.6 -22.9 169.4 -24.1Q170.1 -25.3 170.1 -27.2Q170.1 -29.1 169.4 -30.4Q168.6 -31.6 167 -32.3Q165.5 -32.9 163.2 -32.9H158.2V0ZM171 0 161 -18.6H171.4L181.6 0Z M185.8 0 199.4 -40.7H212.3L226.3 0H215.5L209.8 -17.8Q208.5 -22.3 207.2 -27.3Q205.9 -32.3 204.6 -37.7H206.8Q205.6 -32.3 204.4 -27.2Q203.3 -22.2 202 -17.8L196.5 0ZM195 -8.7V-16H217.1V-8.7Z M247.8 0H236.9V-8.3H247.3Q250.8 -8.3 253.3 -9.4Q255.7 -10.6 256.9 -13.3Q258.2 -16 258.2 -20.4Q258.2 -24.8 256.9 -27.4Q255.6 -30.1 253.2 -31.3Q250.8 -32.5 247.2 -32.5H236.7V-40.7H247.8Q254 -40.7 258.5 -38.3Q262.9 -35.9 265.4 -31.3Q267.8 -26.7 267.8 -20.4Q267.8 -14 265.4 -9.4Q263 -4.9 258.5 -2.4Q254 0 247.8 0ZM242.4 -40.7V0H232.8V-40.7Z M284.9 -40.7V0H275.2V-40.7Z M311.7 0.5Q306.2 0.5 301.8 -1.9Q297.4 -4.3 294.9 -9Q292.3 -13.7 292.3 -20.3Q292.3 -27.1 294.9 -31.8Q297.4 -36.4 301.8 -38.9Q306.2 -41.3 311.7 -41.3Q317.2 -41.3 321.6 -38.9Q326 -36.4 328.5 -31.8Q331.1 -27.1 331.1 -20.3Q331.1 -13.6 328.5 -9Q326 -4.3 321.6 -1.9Q317.2 0.5 311.7 0.5ZM311.7 -7.9Q314.7 -7.9 316.8 -9.4Q318.9 -10.8 320.1 -13.6Q321.2 -16.3 321.2 -20.3Q321.2 -24.4 320.1 -27.2Q318.9 -30 316.8 -31.4Q314.7 -32.8 311.7 -32.8Q308.8 -32.8 306.6 -31.4Q304.5 -30 303.3 -27.2Q302.2 -24.4 302.2 -20.3Q302.2 -16.3 303.3 -13.6Q304.5 -10.8 306.6 -9.4Q308.8 -7.9 311.7 -7.9Z" fill="#e8ebf2"/></g></svg></h1>
+    <div id="net">connecting…</div>
+  </header>
+
+  <section class="card hidden" id="apnote"><b>WiFi setup.</b> Enter your home network under <b>Settings</b> below and press <b>Save</b>. The radio then restarts and joins it, and this page is at <b>http://picoradio.local</b>.</section>
+
+  <div class="screen"><canvas id="scr" width="284" height="76" aria-label="Radio display"></canvas></div>
+
+  <section class="card now">
+    <div id="name">&nbsp;</div>
+    <div id="title">&nbsp;</div>
+    <div class="params"><span id="state"></span><span id="codec" class="badge hidden"></span><span id="stream"></span></div>
+  </section>
+
+  <section class="card">
+    <div class="tabs">
+      <button data-src="radio">Internet Radio</button>
+      <button data-src="bt">Bluetooth</button>
+      <button data-src="ai">AI Gemini</button>
+    </div>
+  </section>
+
+  <section class="card vol">
+    <label for="vol">VOL</label>
+    <input id="vol" type="range" min="0" max="32" value="0">
+    <span id="volv">0</span>
+    <button id="mute">Mute</button>
+  </section>
+
+  <section class="card" id="p-radio">
+    <div class="stations" id="stations"></div>
+    <div class="row" style="margin-top:8px"><button data-cmd="reload">Reconnect</button><button id="editbtn">Edit stations</button></div>
+  </section>
+
+  <section class="card hidden" id="p-edit">
+    <div class="edit-head">
+      <h2>Stations <small id="ecount"></small></h2>
+      <small id="edef"></small>
+    </div>
+    <div class="elist" id="elist"></div>
+    <form class="form" id="eform" autocomplete="off">
+      <input id="ename" placeholder="Station name" maxlength="47" required>
+      <input id="eurl" placeholder="http(s):// stream or .pls / .m3u link" maxlength="207" required>
+      <button id="esave" type="submit">Add station</button>
+    </form>
+    <div class="msg" id="emsg"></div>
+    <div class="tools">
+      <label for="efile">Import playlist…</label>
+      <input id="efile" type="file" accept=".m3u,.m3u8,.pls,.txt,audio/x-mpegurl,audio/x-scpls" hidden>
+      <a href="/stations.m3u" download="picoradio.m3u">Export .m3u</a>
+      <a href="/stations.pls" download="picoradio.pls">Export .pls</a>
+      <button id="ereset" class="danger" type="button">Reset to defaults</button>
+    </div>
+    <div class="preview hidden" id="eprev">
+      <b id="eprevt"></b>
+      <ol id="eprevl"></ol>
+      <div class="row"><button id="eappend" type="button">Append</button><button id="ereplace" type="button">Replace all</button><button id="ecancel" type="button">Cancel</button></div>
+    </div>
+  </section>
+
+  <section class="card hidden" id="p-bt">
+    <div class="row">
+      <button data-cmd="prev">⏮ Previous</button>
+      <button data-cmd="play">⏯ Play / Pause</button>
+      <button data-cmd="next">Next ⏭</button>
+    </div>
+    <p class="hint">Pair your phone with <b>Pico Radio</b> in its Bluetooth settings.</p>
+    <div class="row"><button id="btforget">Forget paired phones</button></div>
+    <div class="msg" id="btmsg"></div>
+  </section>
+
+  <section class="card hidden" id="p-ai">
+    <div class="row">
+      <button id="mic" data-cmd="mic">Microphone on</button>
+      <button data-cmd="reload">New conversation</button>
+    </div>
+    <div class="meter"><i id="miclvl"></i></div>
+    <p class="hint">Speak when the radio shows <b>AI LISTENING</b> (answers come in the language set under Settings). The microphone is muted while the answer plays.</p>
+  </section>
+
+  <section class="card" id="p-cfg">
+    <div class="fw-head">
+      <h2>Settings</h2>
+      <button id="cfgbtn" type="button">Show</button>
+    </div>
+    <form id="cfgform" class="hidden" autocomplete="off">
+      <div class="cfg">
+        <h3>WiFi</h3>
+        <label for="c_ssid">Network</label><input id="c_ssid" maxlength="32" required>
+        <label for="c_pass">Password</label><input id="c_pass" type="password" maxlength="63">
+        <small id="c_passhint"></small>
+        <label></label><div class="chk"><input id="c_open" type="checkbox"><label for="c_open">Open network (no password)</label></div>
+        <label for="c_host">Radio name</label><input id="c_host" maxlength="31" pattern="[a-z0-9][a-z0-9-]*">
+        <small id="c_hosthint">Lowercase letters, digits, -</small>
+        <h3>Bluetooth</h3>
+        <label for="c_bt">Name</label><input id="c_bt" maxlength="31" required>
+        <h3>AI Gemini</h3>
+        <label for="c_key">API key</label><input id="c_key" type="password" maxlength="63">
+        <small id="c_keyhint"></small>
+        <label></label><div class="chk hidden" id="c_nokeyrow"><input id="c_nokey" type="checkbox"><label for="c_nokey">Remove the saved key</label></div>
+        <label for="c_model">Model</label><input id="c_model" maxlength="47" required>
+        <label for="c_voice">Voice</label><input id="c_voice" maxlength="23" required list="voices">
+        <datalist id="voices"><option>Kore</option><option>Puck</option><option>Charon</option><option>Zephyr</option><option>Fenrir</option><option>Leda</option><option>Orus</option><option>Aoede</option><option>Callirrhoe</option><option>Autonoe</option><option>Enceladus</option><option>Iapetus</option><option>Umbriel</option><option>Algieba</option><option>Despina</option><option>Erinome</option><option>Algenib</option><option>Rasalgethi</option><option>Laomedeia</option><option>Achernar</option><option>Alnilam</option><option>Schedar</option><option>Gacrux</option><option>Pulcherrima</option><option>Achird</option><option>Zubenelgenubi</option><option>Vindemiatrix</option><option>Sadachbia</option><option>Sadaltager</option><option>Sulafat</option></datalist>
+        <label for="c_lang">Language</label><select id="c_lang"><option value="auto">Automatic (the language you speak)</option><option>Polish</option><option>English</option><option>German</option><option>French</option><option>Spanish</option><option>Italian</option><option>Portuguese</option><option>Dutch</option><option>Ukrainian</option><option>Russian</option><option>Czech</option><option>Slovak</option><option>Swedish</option><option>Norwegian</option><option>Danish</option><option>Finnish</option><option>Hungarian</option><option>Romanian</option><option>Greek</option><option>Turkish</option><option>Arabic</option><option>Hindi</option><option>Japanese</option><option>Korean</option><option>Chinese</option><option>Vietnamese</option><option>Thai</option><option>Indonesian</option></select>
+        <small>Gemini answers in this language. The instructions below shouldn't name another one.</small>
+        <label>Greeting</label><div class="chk"><input id="c_greet" type="checkbox"><label for="c_greet">Say hello when AI mode starts</label></div>
+        <label for="c_prompt">Instructions</label><textarea id="c_prompt"></textarea>
+        <h3>Stations</h3>
+        <label>HTTPS</label><div class="chk"><input id="c_tls" type="checkbox"><label for="c_tls">Check station certificates</label></div>
+      </div>
+      <div class="row" style="margin-top:12px">
+        <button id="cfgsave" type="submit">Save</button>
+        <button id="cfgrestart" type="button" class="hidden">Restart now</button>
+        <button id="cfgreset" type="button" class="danger">Factory settings</button>
+      </div>
+      <div class="msg" id="cfgmsg"></div>
+      <p class="hint">WiFi, the radio name and the Bluetooth name apply after a restart. If the radio can't join WiFi any more, hold encoder 1 while switching it on: it starts with the settings from <b>config.h</b>.</p>
+    </form>
+  </section>
+
+  <section class="card" id="p-fw">
+    <div class="fw-head">
+      <h2>Firmware</h2>
+      <small id="fwinfo"></small>
+    </div>
+    <div class="tools">
+      <label for="fwfile" id="fwpick">Update firmware…</label>
+      <input id="fwfile" type="file" accept=".uf2,.bin" hidden>
+    </div>
+    <div class="meter hidden" id="fwmeter"><i id="fwbar"></i></div>
+    <div class="msg" id="fwmsg"></div>
+    <p class="hint">Pick <b>build/pico_radio.uf2</b>. It's written to the spare slot while the radio keeps running, then the radio restarts on it. If the new firmware doesn't start, switch the radio off and on: it goes back to the previous one.</p>
+  </section>
+
+  <footer><span id="ver"></span> <span id="err"></span></footer>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let updating = false;
+let st = null, dragging = false, volTimer = 0, stations = [], smax = 31, editIdx = -1, imported = [];
+
+/* the radio only accepts commands / uploads that carry this header
+ * (other web sites can't add it, see web.c) */
+const H = {'X-Pico-Radio': '1'};
+async function api(path) {
+  const r = await fetch(path, {cache: 'no-store', headers: H});
+  if (!r.ok) throw new Error(r.status);
+  return r.json();
+}
+const cmd = (a, v) => api('/api/cmd?a=' + a + (v !== undefined ? '&v=' + encodeURIComponent(v) : '')).then(poll).catch(() => {});
+
+function rate(hz) { return hz % 1000 ? (hz / 1000).toFixed(1) + 'kHz' : (hz / 1000) + 'kHz'; }
+
+function render(s) {
+  st = s;
+  $('net').textContent = s.ap ? 'WiFi setup  ·  ' + s.ip : s.wifi ? s.ip + '  ·  ' + s.rssi + ' dBm' : 'WiFi offline';
+  if (s.ap && $('apnote').classList.contains('hidden')) {     /* setup network: open the settings */
+    $('apnote').classList.remove('hidden');
+    if ($('cfgform').classList.contains('hidden')) $('cfgbtn').click();
+  }
+  $('name').textContent = s.src !== 'radio' ? s.name
+    : s.station < stations.length ? (s.station + 1) + ' · ' + s.name : 'Found by AI · ' + s.name;
+  $('title').textContent = s.title || s.info || ' ';
+  $('state').textContent = s.state;
+  $('state').style.color = /ERROR|OFF/.test(s.state) ? 'var(--red)' : /PLAY|LISTEN/.test(s.state) ? 'var(--green)' : 'var(--amber)';
+  const playing = /PLAY|SPEAKING/.test(s.state) && s.codec;
+  $('codec').classList.toggle('hidden', !playing);
+  $('codec').textContent = s.codec;
+  $('stream').textContent = !playing ? '' : s.codec === 'PCM'
+    ? '16bit ' + rate(s.rate) + ' ' + s.ch
+    : s.kbps + 'kbps ' + rate(s.rate) + ' ' + s.ch + (s.src !== 'ai' ? '  ·  buffer ' + s.buf + '%' : '');
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.src === s.src));
+  ['radio', 'bt', 'ai'].forEach(p => $('p-' + p).classList.toggle('hidden', p !== s.src));
+  if (!dragging) { $('vol').max = s.volmax; $('vol').value = s.vol; $('volv').textContent = s.vol; }
+  $('mute').classList.toggle('on', s.muted);
+  $('mute').textContent = s.muted ? 'Muted' : 'Mute';
+  document.querySelectorAll('#stations button').forEach((b, i) => b.classList.toggle('on', s.src === 'radio' && i === s.station));
+  $('mic').classList.toggle('on', s.micoff);
+  $('mic').textContent = s.micoff ? 'Microphone off' : 'Microphone on';
+  $('miclvl').style.width = (s.state === 'AI LISTENING' ? s.mic : 0) + '%';
+  $('fwinfo').textContent = 'v' + s.ver + '  ·  built ' + s.built + '  ·  ' +
+    (s.fw === '-' ? 'no partition table' : 'slot ' + s.fw);
+  $('fwpick').style.display = s.otakb ? '' : 'none';
+  if (!s.otakb && !updating) fwmsg('Updates need the partition table: flash build/pt.uf2 once over USB (see README).', false);
+  $('ver').textContent = 'Pico Radio v' + s.ver;
+  $('err').textContent = '';
+}
+
+async function poll() {
+  if (updating) return;
+  try { render(await api('/api/status')); }
+  catch (e) { $('err').textContent = 'Radio not reachable'; }
+}
+
+async function loadStations() {
+  try {
+    const r = await api('/api/stations');
+    stations = r.list; smax = r.max;
+    $('stations').innerHTML = '';
+    stations.forEach((s, i) => {
+      const b = document.createElement('button');
+      b.innerHTML = '<span class="n">' + (i + 1) + '</span><span></span>';
+      b.lastChild.textContent = s.name;
+      b.onclick = () => cmd('tune', i);
+      $('stations').appendChild(b);
+    });
+    $('ecount').textContent = stations.length + ' / ' + smax;
+    $('edef').textContent = r.default ? 'Factory list from config.h' : 'Saved on the radio';
+    renderEditor();
+    if (st) render(st);
+  } catch (e) { setTimeout(loadStations, 2000); }
+}
+
+/* ---------- station editor ---------- */
+async function post(fields) {
+  const r = await fetch('/api/stations', {method: 'POST',
+    headers: {...H, 'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(fields)});
+  return r.json().catch(() => ({ok: false}));
+}
+function msg(text, ok) { $('emsg').textContent = text; $('emsg').className = 'msg ' + (ok ? 'ok' : 'bad'); }
+async function edit(fields, okText) {
+  const r = await post(fields);
+  msg(r.ok ? okText : 'Not saved: check the name and URL (http:// or https://, max 207 characters), or the list is full.', r.ok);
+  await loadStations(); poll();
+  return r;
+}
+function renderEditor() {
+  const l = $('elist'); l.innerHTML = '';
+  stations.forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'erow' + (i === editIdx ? ' editing' : '');
+    row.innerHTML = '<span class="n">' + (i + 1) + '</span><div class="t"><b></b><span></span></div>' +
+      '<div class="b"><button title="Move up">↑</button><button title="Move down">↓</button>' +
+      '<button title="Edit">✎</button><button title="Delete">✕</button></div>';
+    row.querySelector('b').textContent = s.name;
+    row.querySelector('.t span').textContent = s.url;
+    const [up, down, ed, del] = row.querySelectorAll('.b button');
+    up.disabled = i === 0; down.disabled = i === stations.length - 1; del.disabled = stations.length < 2;
+    up.onclick = () => edit({a: 'up', i}, 'Moved.');
+    down.onclick = () => edit({a: 'down', i}, 'Moved.');
+    ed.onclick = () => { editIdx = i; $('ename').value = s.name; $('eurl').value = s.url; $('esave').textContent = 'Save changes'; renderEditor(); $('ename').focus(); };
+    del.onclick = () => { if (confirm('Delete "' + s.name + '"?')) edit({a: 'del', i}, 'Deleted.'); };
+    l.appendChild(row);
+  });
+  $('esave').disabled = editIdx < 0 && stations.length >= smax;
+}
+function clearForm() { editIdx = -1; $('eform').reset(); $('esave').textContent = 'Add station'; renderEditor(); }
+$('eform').onsubmit = async e => {
+  e.preventDefault();
+  const name = $('ename').value.replace(/[\t\r\n]+/g, ' ').trim(), url = $('eurl').value.trim();
+  const r = editIdx >= 0 ? await edit({a: 'edit', i: editIdx, name, url}, 'Saved.')
+                         : await edit({a: 'add', name, url}, 'Added "' + name + '".');
+  if (r.ok) clearForm();
+};
+$('editbtn').onclick = () => { $('p-edit').classList.toggle('hidden'); $('editbtn').textContent = $('p-edit').classList.contains('hidden') ? 'Edit stations' : 'Close editor'; };
+$('ereset').onclick = () => { if (confirm('Replace the list with the factory stations from config.h?')) edit({a: 'reset'}, 'Back to the factory list.'); };
+
+/* ---------- import (.m3u / .m3u8 / .pls / plain list of URLs) ---------- */
+function hostName(u) { try { const x = new URL(u); return x.hostname + x.pathname; } catch (e) { return u; } }
+function parsePlaylist(text) {
+  const out = [], lines = text.split(/\r?\n/);
+  if (/^\s*\[playlist\]/i.test(text)) {
+    const files = {}, titles = {};
+    for (const l of lines) {
+      let m = l.match(/^\s*File(\d+)\s*=\s*(.+)$/i); if (m) files[m[1]] = m[2].trim();
+      m = l.match(/^\s*Title(\d+)\s*=\s*(.*)$/i); if (m) titles[m[1]] = m[2].trim();
+    }
+    Object.keys(files).sort((a, b) => a - b).forEach(k => out.push({name: titles[k] || '', url: files[k]}));
+  } else {
+    let pending = '';
+    for (let l of lines) {
+      l = l.trim();
+      if (l.startsWith('#EXTINF')) { pending = l.replace(/^#EXTINF:[^,]*,?/, '').trim(); continue; }
+      if (!l || l.startsWith('#')) continue;
+      if (/^https?:\/\//i.test(l)) { out.push({name: pending, url: l}); pending = ''; }
+    }
+  }
+  return out.filter(s => /^https?:\/\//i.test(s.url) && s.url.length <= 207)
+            .map(s => ({name: (s.name || hostName(s.url)).replace(/[\t\r\n]+/g, ' ').slice(0, 47), url: s.url}));
+}
+$('efile').onchange = async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  imported = parsePlaylist(await f.text());
+  if (!imported.length) { msg('No http(s) stations found in ' + f.name + '.', false); return; }
+  $('eprevt').textContent = f.name + ': ' + imported.length + ' station' + (imported.length > 1 ? 's' : '') +
+    (imported.length > smax ? ' (only the first ' + smax + ' fit)' : '');
+  $('eprevl').innerHTML = '';
+  imported.slice(0, smax).forEach(s => { const li = document.createElement('li'); li.textContent = s.name + ' — ' + s.url; $('eprevl').appendChild(li); });
+  $('eappend').disabled = stations.length >= smax;
+  $('eprev').classList.remove('hidden');
+};
+async function doImport(mode) {
+  $('eprev').classList.add('hidden');
+  const data = imported.map(s => s.name + '\t' + s.url).join('\n');
+  const r = await post({a: 'import', mode, data});
+  msg(r.ok ? 'Imported ' + r.added + ' station' + (r.added === 1 ? '' : 's') + (mode === 'replace' ? ' (list replaced).' : '.') : 'Import failed.', r.ok);
+  await loadStations(); poll();
+}
+$('eappend').onclick = () => doImport('append');
+$('ereplace').onclick = () => { if (confirm('Replace all ' + stations.length + ' stations?')) doImport('replace'); };
+$('ecancel').onclick = () => $('eprev').classList.add('hidden');
+
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => cmd('source', b.dataset.src));
+document.querySelectorAll('[data-cmd]').forEach(b => b.onclick = () => cmd(b.dataset.cmd));
+$('mute').onclick = () => cmd('mute');
+$('vol').oninput = e => {
+  dragging = true;
+  $('volv').textContent = e.target.value;
+  clearTimeout(volTimer);
+  volTimer = setTimeout(() => cmd('vol', e.target.value), 80);
+};
+$('vol').onchange = e => { dragging = false; cmd('vol', e.target.value); };
+
+$('btforget').onclick = async () => {
+  if (!confirm('Delete all phones paired with the radio? Also forget "Pico Radio" on the phone, then pair again.')) return;
+  let ok = false;
+  try { ok = (await fetch('/api/cmd?a=btforget', {cache: 'no-store', headers: H})).ok; } catch (e) {}
+  $('btmsg').textContent = ok ? 'Pairings deleted. Now forget "Pico Radio" on the phone and pair again.' : 'Could not delete the pairings (see the serial log).';
+  $('btmsg').className = 'msg ' + (ok ? 'ok' : 'bad');
+};
+
+/* ---------- settings ---------- */
+let cfgData = null;
+function cfgmsg(t, ok) { $('cfgmsg').textContent = t; $('cfgmsg').className = 'msg ' + (ok ? 'ok' : 'bad'); }
+async function loadCfg() {
+  cfgData = await api('/api/config');
+  const c = cfgData;
+  $('c_ssid').value = c.ssid; $('c_host').value = c.hostname;
+  $('c_bt').value = c.btname; $('c_model').value = c.model; $('c_voice').value = c.voice;
+  $('c_prompt').value = c.prompt; $('c_prompt').maxLength = c.promptmax; $('c_tls').checked = c.tls;
+  const ls = $('c_lang');
+  if (c.lang && ![...ls.options].some(o => o.value === c.lang)) ls.add(new Option(c.lang, c.lang));   /* custom value */
+  ls.value = c.lang || 'auto';
+  $('c_greet').checked = c.greet !== false;
+  $('c_pass').value = ''; $('c_key').value = '';
+  $('c_open').checked = !!c.open; $('c_pass').disabled = !!c.open; $('c_key').disabled = false;
+  $('c_nokey').checked = false; $('c_nokeyrow').classList.toggle('hidden', !c.key_set);
+  $('c_pass').placeholder = c.pass_set ? '(unchanged)' : 'WiFi password';
+  $('c_key').placeholder = c.key_set ? '(unchanged)' : 'AIza…  (aistudio.google.com/apikey)';
+  $('c_passhint').textContent = c.pass_set ? 'Leave empty to keep the saved password.' : '';
+  $('c_keyhint').textContent = c.key_set ? 'Leave empty to keep the saved key.' : 'Free key from Google AI Studio.';
+  $('c_hosthint').textContent = 'Lowercase letters, digits, -   →  http://' + c.hostname + '.local';
+}
+$('c_open').onchange = () => {
+  $('c_pass').disabled = $('c_open').checked;
+  if ($('c_open').checked) $('c_pass').value = '';
+};
+$('c_nokey').onchange = () => { $('c_key').disabled = $('c_nokey').checked; if ($('c_nokey').checked) $('c_key').value = ''; };
+$('cfgbtn').onclick = async () => {
+  const f = $('cfgform'), show = f.classList.contains('hidden');
+  if (show) { try { await loadCfg(); } catch (e) { cfgmsg('Could not read the settings.', false); } }
+  f.classList.toggle('hidden', !show);
+  $('cfgbtn').textContent = show ? 'Hide' : 'Show';
+};
+async function cfgPost(fields) {
+  const r = await fetch('/api/config', {method: 'POST',
+    headers: {...H, 'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(fields)});
+  return r.json().catch(() => ({ok: false, error: 'no reply'}));
+}
+$('cfgform').onsubmit = async e => {
+  e.preventDefault();
+  const f = {ssid: $('c_ssid').value.trim(), hostname: $('c_host').value.trim().toLowerCase(),
+             btname: $('c_bt').value.trim(), model: $('c_model').value.trim(), voice: $('c_voice').value.trim(),
+             prompt: $('c_prompt').value, lang: $('c_lang').value, greet: $('c_greet').checked ? '1' : '0',
+             tls: $('c_tls').checked ? '1' : '0'};
+  if ($('c_open').checked) f.clearpass = '1';
+  else if ($('c_pass').value) f.pass = $('c_pass').value;
+  else if (!cfgData || !cfgData.pass_set) { cfgmsg('Enter the WiFi password, or tick "Open network".', false); return; }
+  if ($('c_nokey').checked) f.clearkey = '1';
+  else if ($('c_key').value) f.key = $('c_key').value.trim();
+  const r = await cfgPost(f);
+  if (!r.ok) { cfgmsg('Not saved: ' + (r.error || 'error'), false); return; }
+  cfgmsg(r.restart ? 'Saved. Restart the radio to use the new WiFi / names.' : 'Saved.', true);
+  $('cfgrestart').classList.toggle('hidden', !r.restart);
+  if (r.restart && st && st.ap) { $('cfgrestart').click(); return; }   /* setup mode: join the new WiFi now */
+  loadCfg().catch(() => {});
+};
+$('cfgrestart').onclick = async () => {
+  try { await fetch('/api/cmd?a=restart', {cache: 'no-store', headers: H}); } catch (e) {}
+  cfgmsg('Restarting… If the WiFi changed, the radio comes back on the new network' +
+         ($('c_host').value ? ' as http://' + $('c_host').value + '.local' : '') + '.', true);
+  $('cfgrestart').classList.add('hidden');
+};
+$('cfgreset').onclick = async () => {
+  if (!confirm('Go back to the settings from config.h (WiFi, Gemini key, names)?')) return;
+  const r = await cfgPost({a: 'reset'});
+  cfgmsg(r.ok ? 'Factory settings restored. Restart to apply them.' : 'Failed: ' + (r.error || 'error'), r.ok);
+  $('cfgrestart').classList.toggle('hidden', !r.ok);
+  if (r.ok) loadCfg().catch(() => {});
+};
+
+/* ---------- firmware update ---------- */
+function fwmsg(text, ok) { $('fwmsg').textContent = text; $('fwmsg').className = 'msg ' + (ok ? 'ok' : 'bad'); }
+function fwbar(pct) { $('fwmeter').classList.toggle('hidden', pct < 0); $('fwbar').style.width = Math.max(pct, 0) + '%'; }
+function fwdone() { updating = false; fwbar(-1); $('fwfile').value = ''; poll(); }
+
+/* wait for the radio to come back after the reboot, then check the slot */
+async function fwwait(slot, t0) {
+  try {
+    const s = await api('/api/status');
+    if (s.fw === slot) fwmsg('Done: the radio now runs v' + s.ver + ', built ' + s.built + ' (slot ' + slot + ').', true);
+    else fwmsg('The radio restarted on the previous firmware (slot ' + s.fw + '): the new one didn\'t start.', false);
+    fwdone();
+    loadStations();
+  } catch (e) {
+    if (Date.now() - t0 > 90000) { fwmsg('The radio hasn\'t come back after 90 s. Check its screen, or switch it off and on.', false); fwdone(); }
+    else setTimeout(() => fwwait(slot, t0), 2000);
+  }
+}
+
+$('fwfile').onchange = e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (st && f.size > st.otakb * 2048 + 4096) { fwmsg(f.name + ' is too big for the update slot.', false); $('fwfile').value = ''; return; }
+  if (!confirm('Update the radio with ' + f.name + ' (' + Math.round(f.size / 1024) + ' KB)? It restarts when done.')) { $('fwfile').value = ''; return; }
+  updating = true;
+  fwbar(0);
+  fwmsg('Uploading ' + f.name + '…', true);
+  const x = new XMLHttpRequest();
+  x.open('POST', '/api/ota');
+  x.setRequestHeader('Content-Type', 'application/octet-stream');
+  x.setRequestHeader('X-Pico-Radio', '1');
+  x.upload.onprogress = ev => {
+    if (!ev.lengthComputable) return;
+    const p = Math.round(ev.loaded * 100 / ev.total);
+    fwbar(p);
+    fwmsg(p < 100 ? 'Writing firmware… ' + p + '%' : 'Checking…', true);
+  };
+  x.onload = () => {
+    let r;
+    try { r = JSON.parse(x.responseText); } catch (err) { r = {ok: false, error: 'unexpected reply (' + x.status + ')'}; }
+    if (r.ok) { fwbar(100); fwmsg('Written to slot ' + r.slot + '. Restarting…', true); setTimeout(() => fwwait(r.slot, Date.now()), 4000); }
+    else { fwmsg('Update failed: ' + (r.error || 'unknown error'), false); fwdone(); }
+  };
+  x.onerror = () => { fwmsg('Upload failed: the connection to the radio was lost.', false); fwdone(); };
+  x.send(f);
+};
+
+/* ---------- live display ----------
+ * /api/screen.rle: run-length coded frame, or 204 when nothing changed
+ * (format in src/web.c). The next frame is asked for as soon as one arrives,
+ * at most every 60 ms; paused during an update or while the tab is hidden. */
+let scrHash = 0, scrImg = null, scrBusy = false;
+function drawFrame(buf) {
+  const d = new DataView(buf);
+  scrHash = d.getUint32(0, true);
+  const w = d.getUint16(4, true), h = d.getUint16(6, true), cv = $('scr');
+  if (cv.width !== w || cv.height !== h || !scrImg) { cv.width = w; cv.height = h; scrImg = cv.getContext('2d').createImageData(w, h); }
+  const px = scrImg.data, total = w * h;
+  let o = 8, p = 0;
+  const put = v => {                        /* panel order: byte-swapped RGB565 */
+    const c = ((v & 0xff) << 8) | (v >> 8), q = p * 4;
+    px[q] = ((c >> 11) & 31) * 255 / 31; px[q + 1] = ((c >> 5) & 63) * 255 / 63; px[q + 2] = (c & 31) * 255 / 31; px[q + 3] = 255;
+    p++;
+  };
+  while (p < total && o + 2 <= buf.byteLength) {
+    const hw = d.getUint16(o, true); o += 2;
+    let n = hw & 0x7fff;
+    if (hw & 0x8000) { const v = d.getUint16(o, true); o += 2; while (n-- && p < total) put(v); }
+    else while (n-- && p < total && o + 2 <= buf.byteLength) { put(d.getUint16(o, true)); o += 2; }
+  }
+  cv.getContext('2d').putImageData(scrImg, 0, 0);
+}
+async function nextFrame(ms) {
+  await new Promise(r => setTimeout(r, ms));
+  if (updating || document.hidden || scrBusy) return setTimeout(() => nextFrame(0), 500);
+  scrBusy = true;
+  const t0 = Date.now();
+  try {
+    const r = await fetch('/api/screen.rle?h=' + scrHash, {cache: 'no-store'});
+    if (r.status === 200) drawFrame(await r.arrayBuffer());
+    scrBusy = false;
+    nextFrame(Math.max(0, 60 - (Date.now() - t0)));
+  } catch (e) { scrBusy = false; nextFrame(1500); }
+}
+nextFrame(0);
+
+loadStations();
+poll();
+setInterval(poll, 1000);
+</script>
+</body>
+</html>

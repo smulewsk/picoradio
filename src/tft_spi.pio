@@ -1,0 +1,35 @@
+; Write-only SPI for the ST7789, on any two GPIOs (no SPI block needed).
+; side-set = SCK, OUT pin = MOSI. 8 bits per byte, MSB first.
+; 2 PIO cycles per bit: data changes with SCK low, the panel samples on the
+; rising edge (SPI mode 0). While waiting for data the SM stalls on `out`
+; with SCK low.
+; Write bytes as 8-bit accesses to the TX FIFO: the bus copies the byte into
+; all four lanes, so it lands in OSR[31:24] where `out` starts.
+
+.program tft_spi
+.side_set 1
+
+.wrap_target
+    out pins, 1     side 0
+    nop             side 1
+.wrap
+
+% c-sdk {
+static inline void tft_spi_program_init(PIO pio, uint sm, uint offset,
+                                        uint sck_pin, uint mosi_pin, float clkdiv) {
+    pio_sm_config c = tft_spi_program_get_default_config(offset);
+    sm_config_set_sideset_pins(&c, sck_pin);
+    sm_config_set_out_pins(&c, mosi_pin, 1);
+    sm_config_set_out_shift(&c, false, true, 8);      /* MSB first, autopull every byte */
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
+    sm_config_set_clkdiv(&c, clkdiv);
+
+    pio_gpio_init(pio, sck_pin);
+    pio_gpio_init(pio, mosi_pin);
+    uint32_t mask = (1u << sck_pin) | (1u << mosi_pin);
+    pio_sm_set_pins_with_mask(pio, sm, 0, mask);
+    pio_sm_set_pindirs_with_mask(pio, sm, mask, mask);
+    pio_sm_init(pio, sm, offset, &c);
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
