@@ -29,7 +29,7 @@ include(pico_sdk_import.cmake)
 
 # Firmware version: bump it here. Shown on the web page, the info screen,
 # the serial log and by `picotool info`.
-project(pico_radio VERSION 1.0.0 LANGUAGES C CXX ASM)
+project(pico_radio VERSION 1.0.1 LANGUAGES C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 pico_sdk_init()
 
