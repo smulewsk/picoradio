@@ -129,6 +129,12 @@ Also bridge the SCK pad on the front to GND, or wire SCK to GND.
 
 You can change any pin in `include/config.h`. The three DAC pins and the six display pins can be any GPIOs, in any order: both are driven by PIO programs (`src/i2s.pio`, `src/tft_spi.pio`), not the SPI/I2S hardware blocks. The mic's WS must stay at SCK + 1.
 
+### Breakout board (PCB)
+
+Instead of a breadboard, `hardware/picoradio-breakout/` has a KiCad 8 project for a 61 × 71 mm carrier board, with ready-to-order Gerbers for JLCPCB. It has a socket for the Pico 2 W, a labelled goldpin header for each module (DAC, display, both encoders, microphone), a power header (USB 5 V, 3V3, GND) and a header for the spare GPIOs; the bottom layer is a GND plane. The pins match the table above, so the firmware runs unchanged. See [its README](hardware/picoradio-breakout/README.md).
+
+<img src="hardware/picoradio-breakout/docs/pcb-top.png" alt="Breakout board PCB, top side" width="420">
+
 ## Configure
 
 Most settings are changed on the radio's web page (**Settings** card, see [Settings page](#settings-page)) and kept in flash. `include/config.h` holds the hardware setup and the **factory defaults** for those settings:

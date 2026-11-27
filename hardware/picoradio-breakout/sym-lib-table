@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "picoradio")(type "KiCad")(uri "${KIPRJMOD}/picoradio.kicad_sym")(options "")(descr "picoradio board"))
+)
