@@ -1,0 +1,93 @@
+# Release, step 2: runs when a "Release vX.Y.Z" pull request (branch
+# release/vX.Y.Z, opened by release.yml) is merged. Tags the merge commit,
+# builds it and publishes the GitHub release with the firmware files.
+name: Publish release
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      tag: ${{ steps.v.outputs.tag }}
+    steps:
+      - name: Version from the branch name
+        id: v
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          version="${HEAD_REF#release/v}"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "bad branch name $HEAD_REF"; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the merge commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Tag it
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.v.outputs.tag }}" -m "Pico Radio ${{ steps.v.outputs.version }}"
+          git push origin "${{ steps.v.outputs.tag }}"
+
+      - name: Release notes (this version's part of CHANGELOG.md)
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          awk -v v="## $VERSION " 'index($0, v) == 1 {on = 1; next} on && /^## / {exit} on' CHANGELOG.md > release_notes.md
+          cat release_notes.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release_notes.md
+
+  build:
+    needs: tag
+    uses: ./.github/workflows/build.yml
+    with:
+      ref: ${{ needs.tag.outputs.tag }}
+
+  publish:
+    needs: [tag, build]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-notes
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.tag.outputs.tag }}
+          VERSION: ${{ needs.tag.outputs.version }}
+        run: |
+          cd firmware
+          mv pico_radio.uf2 "pico_radio-$VERSION.uf2"
+          mv pico_radio.bin "pico_radio-$VERSION.bin"
+          mv pico_radio.elf "pico_radio-$VERSION.elf"
+          {
+            cat ../release_notes.md
+            echo
+            echo "### Files"
+            echo "- \`pico_radio-$VERSION.uf2\`: the firmware. Upload it on the radio's web page (Firmware card) or copy it onto the RP2350 drive in BOOTSEL mode."
+            echo "- \`pt.uf2\`: partition table, only needed once before the first USB install (see the README)."
+            echo "- \`pico_radio-$VERSION.bin\` / \`.elf\`: the same firmware for OTA by \`curl\` or debugging."
+          } > notes.md
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --title "Pico Radio $VERSION" \
+            --notes-file notes.md \
+            "pico_radio-$VERSION.uf2" pt.uf2 "pico_radio-$VERSION.bin" "pico_radio-$VERSION.elf"

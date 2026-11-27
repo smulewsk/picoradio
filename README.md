@@ -195,17 +195,6 @@ The OTA tasks ask for the radio's address (Enter = `picoradio.local`; use the IP
 { "key": "cmd+alt+u", "command": "workbench.action.tasks.runTask", "args": "Compile & OTA Flash" }
 ```
 
-### Releases (GitHub Actions)
-
-- **Every push and pull request** is built by `.github/workflows/build.yml`. The firmware is attached to the run as the *firmware* artifact.
-- **A release** comes from *Actions → Release → Run workflow*. Pick **patch**, **minor** or **major**, and the workflow:
-  1. raises `project(pico_radio VERSION …)` in `CMakeLists.txt`,
-  2. adds the changes since the last release to `CHANGELOG.md`, built from the commit messages by `scripts/changelog.sh`,
-  3. commits *Release vX.Y.Z*, tags it `vX.Y.Z` and pushes both,
-  4. builds that commit and publishes a GitHub release with `pico_radio-X.Y.Z.uf2`, `pt.uf2`, `.bin` and `.elf`.
-- **Commit messages** become the changelog lines. A `feat:` (or *Add …*) prefix goes under **Added**, `fix:` (or *Fix …*) under **Fixed**, anything else under **Changed**. Merges and release commits are left out.
-- **Release builds have no WiFi or API key** (the `config.h` placeholders), so a fresh radio opens the [setup network](#wifi-setup-access-point). Updating over the web page keeps the saved settings.
-- **CI tools:** Pico SDK 2.3.0 and the ARM GCC 15.2.Rel1 toolchain, set at the top of `build.yml`.
 
 ## Controls
 

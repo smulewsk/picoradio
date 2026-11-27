@@ -1,9 +1,11 @@
-# Release: Actions tab -> "Release" -> Run workflow, pick patch / minor / major.
-#   1. bumps project(pico_radio VERSION x.y.z) in CMakeLists.txt
-#   2. writes the changes since the last release (from the commit messages)
-#      to CHANGELOG.md
-#   3. commits "Release vX.Y.Z", tags it vX.Y.Z and pushes both
-#   4. builds that commit and publishes a GitHub release with the firmware
+# Release, step 1: Actions tab -> "Release" -> Run workflow, pick patch / minor / major.
+#   - raises project(pico_radio VERSION x.y.z) in CMakeLists.txt
+#   - adds the changes since the last release (from the commit messages)
+#     to CHANGELOG.md
+#   - pushes that as branch release/vX.Y.Z and opens a pull request,
+#     and starts the Build workflow on it (the required "build" check)
+# Step 2 is yours: merge the pull request. publish.yml then tags the merge
+# commit, builds it and publishes the GitHub release.
 name: Release
 
 on:
@@ -16,18 +18,17 @@ on:
         default: patch
 
 permissions:
-  contents: write
+  contents: write        # push the release branch
+  pull-requests: write   # open the pull request
+  actions: write         # start the Build workflow on it
 
 concurrency:
   group: release
   cancel-in-progress: false
 
 jobs:
-  bump:
+  prepare:
     runs-on: ubuntu-24.04
-    outputs:
-      version: ${{ steps.bump.outputs.version }}
-      tag: ${{ steps.bump.outputs.tag }}
     steps:
       - name: Check out (full history for the changelog)
         uses: actions/checkout@v4
@@ -49,9 +50,11 @@ jobs:
           if git rev-parse -q --verify "refs/tags/v$new" >/dev/null; then
             echo "tag v$new already exists"; exit 1
           fi
+          if git ls-remote --exit-code --heads origin "release/v$new" >/dev/null; then
+            echo "branch release/v$new already exists: merge or delete its pull request first"; exit 1
+          fi
           sed -i -E "s/^(project\(pico_radio VERSION )[0-9]+\.[0-9]+\.[0-9]+/\1$new/" CMakeLists.txt
           echo "version=$new" >> "$GITHUB_OUTPUT"
-          echo "tag=v$new" >> "$GITHUB_OUTPUT"
           echo "Version $cur -> $new"
 
       - name: Changelog
@@ -63,57 +66,25 @@ jobs:
           { echo "# Changelog"; echo; cat new_changelog.md; } | cat -s > CHANGELOG.md
           rm new_changelog.md
 
-      - name: Commit and tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CMakeLists.txt CHANGELOG.md
-          git commit -m "Release ${{ steps.bump.outputs.tag }}"
-          git tag -a "${{ steps.bump.outputs.tag }}" -m "Pico Radio ${{ steps.bump.outputs.version }}"
-          git push origin "HEAD:${{ github.ref_name }}" "${{ steps.bump.outputs.tag }}"
-
-      - name: Keep the release notes
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-notes
-          path: release_notes.md
-
-  build:
-    needs: bump
-    uses: ./.github/workflows/build.yml
-    with:
-      ref: ${{ needs.bump.outputs.tag }}
-
-  publish:
-    needs: [bump, build]
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: firmware
-          path: firmware
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-notes
-
-      - name: Publish GitHub release
+      - name: Push the release branch and open the pull request
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ needs.bump.outputs.tag }}
-          VERSION: ${{ needs.bump.outputs.version }}
+          VERSION: ${{ steps.bump.outputs.version }}
+          BASE: ${{ github.ref_name }}
         run: |
-          cd firmware
-          mv pico_radio.uf2 "pico_radio-$VERSION.uf2"
-          mv pico_radio.bin "pico_radio-$VERSION.bin"
-          mv pico_radio.elf "pico_radio-$VERSION.elf"
+          branch="release/v$VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add CMakeLists.txt CHANGELOG.md
+          git commit -m "Release v$VERSION"
+          git push origin "$branch"
           {
-            cat ../release_notes.md
+            echo "Merging this publishes **Pico Radio $VERSION** (tag \`v$VERSION\`, firmware files attached to the release)."
             echo
-            echo "### Files"
-            echo "- \`pico_radio-$VERSION.uf2\`: the firmware. Upload it on the radio's web page (Firmware card) or copy it onto the RP2350 drive in BOOTSEL mode."
-            echo "- \`pt.uf2\`: partition table, only needed once before the first USB install (see the README)."
-            echo "- \`pico_radio-$VERSION.bin\` / \`.elf\`: the same firmware for OTA by \`curl\` or debugging."
-          } > notes.md
-          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --title "Pico Radio $VERSION" \
-            --notes-file notes.md \
-            "pico_radio-$VERSION.uf2" pt.uf2 "pico_radio-$VERSION.bin" "pico_radio-$VERSION.elf"
+            cat release_notes.md
+          } > pr_body.md
+          gh pr create --base "$BASE" --head "$branch" --title "Release v$VERSION" --body-file pr_body.md
+          # pushes made with the workflow token don't start other workflows,
+          # so start the build (the required "build" check) explicitly
+          gh workflow run build.yml --ref "$branch"
